@@ -5,6 +5,7 @@ import FoodItem from "./FoodItem";
 const Cart = () => {
   const cartItems = useSelector((store) => store.cart.items);
 
+  console.log("cartItems", cartItems);
   return (
     <div className="flex">
       {cartItems.map((item) => (
