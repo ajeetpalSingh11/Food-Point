@@ -9,7 +9,7 @@ const RestaurantCard = (props) => {
   const deliveryTime = resData.info.sla.deliveryTime;
 
   return (
-    <div className="m-4 p-4 w-[230px] bg-gray-100 rounded-lg hover:bg-gray-300">
+    <div className="m-4 p-4 w-[230px] h-[360px] bg-gray-100 rounded-lg hover:bg-gray-300">
       <img
         className="rounded-lg"
         alt="res-logo"

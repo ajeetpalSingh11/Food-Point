@@ -18,18 +18,23 @@ const Body = () => {
   }, []);
 
   const fetchData = async () => {
-    const data = await fetch(SWIGGY_API);
+    try {
+      const data = await fetch(SWIGGY_API);
 
-    const json = await data.json();
+      const json = await data.json();
 
-    console.log(json);
-    //optional chaining
-    setListOfRestaurants(
-      json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-    setFilteredRestaurants(
-      json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
+      //optional chaining
+      setListOfRestaurants(
+        json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants
+      );
+      setFilteredRestaurants(
+        json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
@@ -62,32 +67,42 @@ const Body = () => {
     <Shimmer />
   ) : (
     <div className="body">
-      <div className="filter flex">
-        <div className="search p-4 m-4">
+      <div className="filter flex flex-wrap">
+        <form
+          className="search p-2 m-2"
+          onSubmit={(e) => {
+            e.preventDefault();
+            const searchRes = listOfRestaurants.filter((res) =>
+              res.info.name.toLowerCase().includes(searchText.toLowerCase())
+            );
+
+            setFilteredRestaurants(searchRes);
+          }}
+        >
           <input
             type="text"
-            className="border border-solid border-black"
+            className="border border-solid border-black p-1 rounded-lg"
             value={searchText}
             onChange={(e) => {
               setSearchText(e.target.value);
             }}
           />
           <button
-            className="m-4 bg-green-100 px-4 py-2 rounded-lg"
-            onClick={() => {
-              const searchRes = listOfRestaurants.filter((res) =>
-                res.info.name.toLowerCase().includes(searchText.toLowerCase())
-              );
+            className="m-4 bg-green-200 px-4 py-2 rounded-lg"
+            // onClick={() => {
+            //   const searchRes = listOfRestaurants.filter((res) =>
+            //     res.info.name.toLowerCase().includes(searchText.toLowerCase())
+            //   );
 
-              setFilteredRestaurants(searchRes);
-            }}
+            //   setFilteredRestaurants(searchRes);
+            // }}
           >
             Search
           </button>
-        </div>
-        <div className="search p-4 m-4">
+        </form>
+        <div className="search p-2 m-2">
           <button
-            className="bg-gray-100 px-4 py-2 rounded-lg"
+            className="bg-gray-200 px-4 py-2 rounded-lg"
             onClick={() => {
               const filteredRes = listOfRestaurants.filter(
                 (res) => res.info.avgRating > 4
@@ -99,7 +114,7 @@ const Body = () => {
             Top rated Restaurants
           </button>
           <button
-            className="m-4 bg-green-100 px-4 py-2 rounded-lg"
+            className="m-4 bg-green-200 px-4 py-2 rounded-lg"
             onClick={() => {
               setFilteredRestaurants(listOfRestaurants);
               setSearchText("");
@@ -109,7 +124,7 @@ const Body = () => {
           </button>
         </div>
 
-        <div className="search p-4 m-8">
+        {/* <div className="search p-4 m-8">
           <label>UserName :</label>
           <input
             type="text"
@@ -119,7 +134,7 @@ const Body = () => {
               setUserName(e.target.value);
             }}
           />
-        </div>
+        </div> */}
       </div>
       <div className="flex flex-wrap">
         {filteredRestaurants?.map((restaurant) => (
@@ -127,11 +142,12 @@ const Body = () => {
             key={restaurant.info.id}
             to={"/restaurants/" + restaurant.info.id}
           >
-            {restaurant.info.isOpen ? (
+            <RestaurantCard resData={restaurant} />
+            {/* {restaurant.info.isOpen ? (
               <RestaurantCardPromoted resData={restaurant} />
             ) : (
               <RestaurantCard resData={restaurant} />
-            )}
+            )} */}
           </Link>
         ))}
       </div>

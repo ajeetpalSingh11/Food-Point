@@ -11,14 +11,14 @@ class About extends React.Component {
   componentDidMount() {}
   render() {
     return (
-      <div className="about">
-        <h1>About Us</h1>
+      <div className="p-5">
+        {/* <h1>About Us</h1>
         <UserContext.Consumer>
           {({ loggedUser }) => {
             return <h1>{loggedUser}</h1>;
           }}
         </UserContext.Consumer>
-        <h2>Namaste React About Us page.</h2>
+        <h2>Namaste React About Us page.</h2> */}
         <UserClass name={"First"} location={"Dehradun"} />
       </div>
     );

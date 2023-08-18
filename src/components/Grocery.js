@@ -1,9 +1,5 @@
 const Grocery = () => {
-  return (
-    <div>
-      <h1>This is a Grocery page with lots of components</h1>
-    </div>
-  );
+  return <div className="m-2 p-5 text-xl">Grocery page</div>;
 };
 
 export default Grocery;

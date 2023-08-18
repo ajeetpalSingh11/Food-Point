@@ -1,12 +1,22 @@
-import { useDispatch } from "react-redux";
-import { addItem } from "../utils/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addItem, decreaseItem, removeItem } from "../utils/cartSlice";
 import { CDN_URL } from "../utils/constants";
+import { useState } from "react";
 
 const ItemList = ({ items }) => {
+  const [btnClicked, setBtnClicked] = useState(false);
   const dispatch = useDispatch();
 
+  const storeItems = useSelector((store) => store.cart.items);
+
   const handleAddItem = (item) => {
+    setBtnClicked(true);
     dispatch(addItem(item));
+  };
+
+  const handleRemoveItem = (id) => {
+    setBtnClicked(true);
+    dispatch(removeItem(id));
   };
 
   return (
@@ -30,9 +40,26 @@ const ItemList = ({ items }) => {
             </div>
 
             <div className="w-3/12 p-2">
-              <div className="bg-gray-500 mx-10 mt-16 text-white p-2 rounded-lg absolute shadow-lg">
-                <button onClick={() => handleAddItem(item.card.info)}>
-                  Add +
+              <div className="bg-gray-500 w-24 flex justify-evenly mx-6 mt-16 text-white p-2 rounded-lg absolute shadow-lg">
+                <button
+                  onClick={() => handleRemoveItem(item.card.info.id)}
+                  className="px-2"
+                >
+                  -
+                </button>
+                <span>
+                  {storeItems.filter((obj) => obj.id === item.card.info.id)
+                    .length === 0
+                    ? "Add"
+                    : storeItems.filter(
+                        (obj) => obj.id === item.card.info.id
+                      )[0].count}
+                </span>
+                <button
+                  onClick={() => handleAddItem(item.card.info)}
+                  className="px-2"
+                >
+                  +
                 </button>
               </div>
               <img
