@@ -8,7 +8,7 @@ const Cart = () => {
   return cartItems.length === 0 ? (
     <div className="m-2 p-5 text-xl">The cart is Empty</div>
   ) : (
-    <div className="flex">
+    <div className="flex flex-wrap">
       {cartItems.map((item) => (
         <FoodItem key={item.id} itemData={item} />
       ))}
