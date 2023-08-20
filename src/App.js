@@ -18,7 +18,7 @@ const AppLayout = () => {
   useEffect(() => {
     //Authorization function
     const data = {
-      userName: "Akshay Saini",
+      userName: "Ajeetpal Singh",
     };
 
     setUserName(data.userName);
